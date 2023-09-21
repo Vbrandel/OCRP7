@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 require('dotenv').config();
 
 const userRoutes = require('./routes/user.js');
+const bookRoutes = require('./routes/book.js')
 
 mongoose.connect(process.env.DB_URI,
 { useNewUrlParser: true,
@@ -23,5 +24,6 @@ app.use((req, res, next) => {
 
 
 app.use('/api/auth', userRoutes);
+app.use('api/books', bookRoutes);
 
 module.exports = app;
