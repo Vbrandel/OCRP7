@@ -1,5 +1,6 @@
 const express = require('express');
 const mongoose = require('mongoose');
+
 require('dotenv').config();
 
 const userRoutes = require('./routes/user.js');
@@ -14,6 +15,7 @@ mongoose.connect(process.env.DB_URI,
 const app = express();
 
 app.use(express.json());
+app.use('/images', express.static('images'));
 
 app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
@@ -24,6 +26,6 @@ app.use((req, res, next) => {
 
 
 app.use('/api/auth', userRoutes);
-app.use('api/books', bookRoutes);
+app.use('/api/books', bookRoutes);
 
 module.exports = app;
