@@ -4,6 +4,10 @@ const path = require("path");
 
 module.exports = (req, res, next) => {
     try {
+        if (!req.file) {
+            next();
+        }
+        
         const filePathObject = path.parse(req.file.filename);
         // Etape 1 : on resize & convert
         sharp(req.file.path)
@@ -11,7 +15,6 @@ module.exports = (req, res, next) => {
             .resize({width: 500,})
         // Etape 2 : Enregistrement
             .toFile(`images/${filePathObject.name}.webp`, () => {
-
         // Etape 3 : Suppression de l'image original
                 fs.unlinkSync(`./images/${req.file.filename}`);
         // Etape 4 : On renomme le nouveau ficher
